@@ -2,6 +2,8 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import '../images/base_font.ttf'
+import '../images/FZKTJW.ttf'
 
 const IndexPage = ({ data }) => (
   <Layout>
