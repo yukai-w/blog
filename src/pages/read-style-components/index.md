@@ -3,113 +3,122 @@ title: styled-component源码阅读（一）
 date: 2019-08-27
 tags: 开源阅读
 ---
-## 版本：4.1.3
+## 版本：4.3.2
 package.json
 
 ```json
 {
-  "name": "styled-components-project",
-  "private": true,
-  "version": "4.1.3",
-  "scripts": {
-    "bs": "lerna bootstrap",
-    "build": "lerna run build --stream --parallel",
-    "clean": "lerna clean",
-    "dev": "lerna run dev --stream --parallel",
-    "flow": "lerna run flow --stream --parallel",
-    "lint": "lerna run lint --stream --parallel",
-    "size": "lerna run size --stream --parallel",
-    "test": "run-s test:*",
-    "prepare": "yarn bs && yarn build",
-    "prepublishOnly": "yarn clean && yarn && yarn build && yarn test && cp README.md packages/styled-components",
-    "publish": "lerna publish",
-    "test:web": "jest -c scripts/jest/config.main.js",
-    "test:web:watch": "yarn test:web -- --watch",
-    "test:native": "jest -c scripts/jest/config.native.js",
-    "test:native:watch": "yarn test:native -- --watch",
-    "test:primitives": "jest -c scripts/jest/config.primitives.js",
-    "test:primitives:watch": "yarn test:primitives -- --watch",
-    "test:integration": "jest -c scripts/jest/config.integration.js --runInBand --forceExit"
+  "name": "styled-components",
+  "version": "4.3.2",
+  "description": "Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps without stress",
+  "main": "dist/styled-components.cjs.js",
+  "jsnext:main": "dist/styled-components.esm.js",
+  "module": "dist/styled-components.esm.js",
+  "react-native": "native/dist/styled-components.native.cjs.js",
+  "browser": {
+    "./dist/styled-components.esm.js": "./dist/styled-components.browser.esm.js",
+    "./dist/styled-components.cjs.js": "./dist/styled-components.browser.cjs.js"
   },
+  "sideEffects": false,
+  "scripts": {
+    "build": "rollup -c",
+    "prebuild": "rimraf dist",
+    "size": "bundlesize",
+    "flow": "flow check",
+    "flow:watch": "flow-watch",
+    "format": "eslint ./**/*.js --fix",
+    "lint": "eslint src",
+    "prettier": "prettier */**/*.js --write",
+    "prepublishOnly": "run-s build",
+    "dev": "cross-env BABEL_ENV=cjs babel-node example/startServer.js",
+    "prebenchmarks": "yarn run build:benchmarks",
+    "benchmarks": "node benchmarks/run-headless.js",
+    "build:benchmarks": "(cd benchmarks && yarn && yarn run build)",
+    "postinstall": "node ./scripts/postinstall.js || exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/styled-components/styled-components.git"
+  },
+  "files": [
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "dist",
+    "native",
+    "primitives",
+    "scripts",
+    "test-utils",
+    "macro"
+  ],
+  "keywords": [
+    "react",
+    "css",
+    "css-in-js",
+    "styled-components",
+    "babel-macro",
+    "babel-macros",
+    "styling"
+  ],
   "author": "Glen Maddern",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/styled-components/styled-components/issues"
   },
   "homepage": "https://styled-components.com",
+  "dependencies": {
+    "@babel/helper-module-imports": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
+    "@emotion/is-prop-valid": "^0.8.1",
+    "@emotion/unitless": "^0.7.0",
+    "babel-plugin-styled-components": ">= 1",
+    "css-to-react-native": "^2.2.2",
+    "memoize-one": "^5.0.0",
+    "merge-anything": "^2.2.4",
+    "prop-types": "^15.5.4",
+    "react-is": "^16.6.0",
+    "stylis": "^3.5.0",
+    "stylis-rule-sheet": "^0.0.10",
+    "supports-color": "^5.5.0"
+  },
+  "peerDependencies": {
+    "react": ">= 16.3.0",
+    "react-dom": ">= 16.3.0"
+  },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-core": "^6.17.0",
-    "babel-eslint": "^10.0.1",
-    "babel-plugin-add-module-exports": "^1.0.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-macros": "^2.4.2",
-    "babel-plugin-preval": "^3.0.1",
-    "babel-plugin-tester": "^5.5.1",
-    "babel-plugin-transform-class-properties": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.22.0",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.14",
-    "babel-preset-env": "^1.4.0",
-    "babel-preset-react": "^6.22.0",
-    "bundlesize": "^0.17.0",
-    "cross-env": "^5.1.3",
-    "eslint": "^5.9.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^3.3.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-prettier": "^3.0.0",
-    "eslint-plugin-react": "^7.11.1",
-    "express": "^4.16.4",
-    "flow-bin": "^0.82.0",
-    "flow-watch": "^1.1.1",
-    "husky": "^1.1.3",
-    "jest": "^23.6.0",
-    "jest-image-snapshot": "^2.7.0",
-    "jest-styled-components": "^6.3.1",
-    "lerna": "^3.10.5",
-    "lint-staged": "^8.0.4",
-    "node-watch": "^0.5.0",
-    "npm-run-all": "^4.1.2",
-    "prettier": "^1.15.2",
-    "puppeteer": "^1.10.0",
-    "raf": "^3.4.1",
-    "rimraf": "^2.6.1",
-    "rollup": "^0.66.5",
-    "rollup-plugin-babel": "^3.0.4",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-flow": "^1.1.1",
-    "rollup-plugin-json": "^3.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-replace": "^1.0.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^3.0.0"
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
+    "react-frame-component": "^4.0.2",
+    "react-native": "^0.56.0",
+    "react-primitives": "^0.6.1",
+    "react-test-renderer": "^16.6.1"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
+  "jest": {
+    "testURL": "http://localhost",
+    "clearMocks": true,
+    "roots": [
+      "<rootDir>/src/"
     ],
-    "nohoist": [
-      "**/react-*",
-      "**/react-*/**"
+    "setupFiles": [
+      "raf/polyfill",
+      "<rootDir>/src/test/globals.js"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/test-utils/setupTestFramework.js",
+    "testPathIgnorePatterns": [
+      "<rootDir>/src/native",
+      "<rootDir>/src/primitives"
     ]
   },
-  "lint-staged": {
-    "linters": {
-      "*.js": [
-        "eslint --fix",
-        "git add"
-      ]
-    },
-    "ignore": [
-      "**/test/*.js"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn flow && lint-staged"
+  "bundlesize": [
+    {
+      "path": "./dist/styled-components.min.js",
+      "maxSize": "16.25kB"
     }
+  ],
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/styled-components"
   }
 }
 
 ```
+
