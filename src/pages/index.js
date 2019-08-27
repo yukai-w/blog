@@ -1,15 +1,22 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
+import styled from 'styled-components'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import '../images/base_font.ttf'
 import '../images/FZKTJW.ttf'
+
+const Div = styled.div`
+  height: 100px;
+  background: blue;
+`
 
 const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
     <h1>Hi people</h1>
     <p>Robot K</p>
+    <Div />
     {/* 文章列表 */}
     <div>
       <h1>Amazing Pandas Eating Things</h1>
