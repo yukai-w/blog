@@ -122,3 +122,50 @@ package.json
 
 ```
 
+## 初始化
+
+```javascript
+// src/constructors/styled.js
+const styled = (tag: Target) => constructWithOptions(StyledComponent, tag);
+
+// 将现有标签循环加给styled，最终可以styled.div调用
+// domElements -> ['div', 'ul', ...]
+domElements.forEach(domElement => {
+  styled[domElement] = styled(domElement);
+});
+
+```
+
+`styled`接受一个标签名， 返回一个函数。
+假设tag = 'div'
+则`styled = constructWithOptions(StyledComponent, 'div')`
+
+下面来看constructWithOptions 和 StyledComponent 代码：
+
+```javascript
+// constructWithOptions
+function constructWithOptions(
+  componentConstructor: Function, // StyledComponent
+  tag: Target, // div
+  options: Object = EMPTY_OBJECT // 这里不需要
+) {
+  if (!isValidElementType(tag)) {
+    throw new StyledError(1, String(tag));
+  }
+
+  /* This is callable directly as a template function */
+  // $FlowFixMe: Not typed to avoid destructuring arguments
+  // 等价于 const templateFunction = (...args) => StyledComponent(tag, options, css(...args));
+  const templateFunction = (...args) => componentConstructor(tag, options, css(...args));
+  // css(...args) 处理模板字符串传入的内容 先不看
+
+  /* ....some  code */
+  /* 增加config和attr相关配置代码，先不看 */
+
+  return templateFunction;
+}
+```
+```javascript
+// StyledComponent
+
+```
