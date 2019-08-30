@@ -167,5 +167,5 @@ function constructWithOptions(
 ```
 ```javascript
 // StyledComponent
-
+操之过急   先把所有功能了解完毕！
 ```
