@@ -6,30 +6,29 @@ import SEO from "../components/seo"
 import '../images/base_font.ttf'
 import '../images/FZKTJW.ttf'
 
-const Div = styled.div`
-  height: 100px;
-  background: blue;
+const Container = styled.div`
+  color:#ccc;
 `
 
 const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Robot K</p>
-    <Div />
+    <h1>Welcome！</h1>
+    <p>yukai.wang</p>
     {/* 文章列表 */}
     <div>
-      <h1>Amazing Pandas Eating Things</h1>
-      <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
+      <h1>勿忘我。</h1>
+      <h4>共{data.allMarkdownRemark.totalCount}篇文章</h4>
       {data.allMarkdownRemark.edges.map(({ node }) => (
-        <div key={node.id}>
+        <Container key={node.id}>
           <Link to={node.fields.slug}>
             <h3>
               {node.frontmatter.title} <span>— {node.frontmatter.date}</span>
             </h3>
+            <p>标签：{node.tags}</p>
             <p>{node.excerpt}</p>
           </Link>
-        </div>
+        </Container>
       ))}
     </div>
   </Layout>
