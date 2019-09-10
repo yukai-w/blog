@@ -15,6 +15,13 @@ const IndexPage = ({ data }) => (
     <SEO title="Home" />
     <h1>Welcome！</h1>
     <p>yukai.wang</p>
+    {/* todo */}
+    <div>TODO：</div>
+    <ol>
+      <li>❌博客整体页面样式</li>
+      <li>❌字体</li>
+      <li>❌分类</li>
+    </ol>
     {/* 文章列表 */}
     <div>
       <h1>勿忘我。</h1>
