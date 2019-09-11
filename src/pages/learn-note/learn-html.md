@@ -53,6 +53,11 @@ lang attr of html tag
 - `<script async>`脚本的提取、执行的过程与html解析过程并行，脚本执行完毕可能在HTML解析完毕之前。当脚本与页面上其他脚本独立时，可以使用async，比如用作页面统计分析。
 - `<script defer> `脚本仅提供过程与HTML解析过程并行，脚本的执行将在HTML解析完毕后进行。如果有多个defer的脚本，脚本的执行顺序从上到下。
 
+> **注意：没有src属性的脚本，async和defer属性会被忽略**
+
+
+
+
 ## 为什么最好把 CSS 的<link>标签放在<head></head>之间？为什么最好把 JS 的<script>标签恰好放在</body>之前，有例外情况吗？
 ## 什么是渐进式渲染（progressive rendering）？
 ## 为什么在<img>标签中使用srcset属性？请描述浏览器遇到该属性后的处理过程。
