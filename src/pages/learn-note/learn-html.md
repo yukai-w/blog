@@ -55,10 +55,45 @@ lang attr of html tag
 
 > **注意：没有src属性的脚本，async和defer属性会被忽略**
 
-
-
-
 ## 为什么最好把 CSS 的<link>标签放在<head></head>之间？为什么最好把 JS 的<script>标签恰好放在</body>之前，有例外情况吗？
+
+link放到head里面，可以让页面逐步呈现，提高用户体验
+
+script放在body最后，使script加载不会阻止html解析
+
 ## 什么是渐进式渲染（progressive rendering）？
+
+- 图片懒加载
+- 确定显示内容优先级（分层次渲染）
+- 异步加载HTML片段
+
 ## 为什么在<img>标签中使用srcset属性？请描述浏览器遇到该属性后的处理过程。
+
+因为需要设计响应式图片，可以使用两个新属性`srcset`及`sizes`
+
+srcset定义了我们允许浏览器选择的图像集，以及每个图像的大小。
+
+sizes定义了一组媒体条件（例如屏幕宽度），并且指明当某些媒体条件为真时，什么样的图片尺寸是最佳选择。
+
+浏览器会：
+- 查看设备宽度
+- 检查sizes列表中那个媒体条件是第一个为真
+- 查看给与媒体查询的槽大小
+- 加载srcset列表中引用的最接近所选的槽大小图像
+
+代码示例：
+```html
+<img srcset="elva-fairy-320w.jpg 320w,
+             elva-fairy-480w.jpg 480w,
+             elva-fairy-800w.jpg 800w"
+     sizes="(max-width: 320px) 280px,
+            (max-width: 480px) 440px,
+            800px"
+     src="elva-fairy-800w.jpg" alt="Elva dressed as a fairy">
+```
+
 ## 你有过使用不同模版语言的经历吗？
+
+Pug ERB Slim Handlebars Jinja Liquid
+
+模板语言大多是相似的，都提供了用于展示数据的内容替换和过滤器的功能，大部分模板引擎都支持自定义过滤器，以展示自定义格式的内容
