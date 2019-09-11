@@ -27,8 +27,26 @@ lang attr of html tag
 
 ## 将 HTML5 看作成开放的网络平台，什么是 HTML5 的基本构件（building block）？
 
+- 语义
+- 连接
+- 离线和存储
+- 多媒体
+- 2D、3D
+- 性能和集成
+- 设备访问
+- 外观
 
 ## 请描述cookie、sessionStorage和localStorage的区别。
+
+||`cookie`|`localStorage`|`sessionStorage`|
+|--|--|--|--|
+|由谁初始化|客户端或服务端，服务器可以使用`Set-Cookie`请求头|客户端|客户端|
+|过期时间|手动设置|永不过期|当页面关闭时|
+|在当前浏览器会话中是否保持不变|取决于是否设置了过期时间|是|是|
+|是否随着每个HTTP请求发送给服务器|是，Cookie会通过Cookie请求头，自动发送给服务器|否|否|
+|容量|4kb|5MB|5MB|
+|访问权限|任意窗口|任意窗口|当前页面窗口|
+
 ## 请描述<script>、<script async>和<script defer>的区别。
 ## 为什么最好把 CSS 的<link>标签放在<head></head>之间？为什么最好把 JS 的<script>标签恰好放在</body>之前，有例外情况吗？
 ## 什么是渐进式渲染（progressive rendering）？
