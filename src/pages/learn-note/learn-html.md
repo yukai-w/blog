@@ -48,6 +48,11 @@ lang attr of html tag
 |访问权限|任意窗口|任意窗口|当前页面窗口|
 
 ## 请描述<script>、<script async>和<script defer>的区别。
+
+- `<script>`-html解析中断，脚本被提取并立即执行。执行结束后，html解析继续。
+- `<script async>`脚本的提取、执行的过程与html解析过程并行，脚本执行完毕可能在HTML解析完毕之前。当脚本与页面上其他脚本独立时，可以使用async，比如用作页面统计分析。
+- `<script defer> `脚本仅提供过程与HTML解析过程并行，脚本的执行将在HTML解析完毕后进行。如果有多个defer的脚本，脚本的执行顺序从上到下。
+
 ## 为什么最好把 CSS 的<link>标签放在<head></head>之间？为什么最好把 JS 的<script>标签恰好放在</body>之前，有例外情况吗？
 ## 什么是渐进式渲染（progressive rendering）？
 ## 为什么在<img>标签中使用srcset属性？请描述浏览器遇到该属性后的处理过程。
