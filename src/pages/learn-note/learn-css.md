@@ -33,9 +33,30 @@ tags: 学习
 
 ## 请阐述z-index属性，并说明如何形成层叠上下文（stacking context）。
 
+css中的z-index属性控制重叠元素的垂直叠加顺序，z-index只能影响position值不是static的元素。
+
+每个层叠上下文是自包含的：当元素的内容发生层叠后，整个元素将会在父层叠上下文中按顺序进行层叠。少数css属性会出发一个新的层叠上下文，例如：opacity小于1，filter不是none，transform不是none。
+
 ## 请阐述块格式化上下文（Block Formatting Context）及其工作原理。
 
+块格式上下文（BFC）是 Web 页面的可视化 CSS 渲染的部分，是块级盒布局发生的区域，也是浮动元素与其他元素交互的区域。
+
+一个 HTML 盒（Box）满足以下任意一条，会创建块格式化上下文：
+
+- float的值不是none.
+- position的值不是static或relative.
+- display的值是table-cell、table-caption、inline-block、flex、或inline-flex。
+- overflow的值不是visible。
+
+在 BFC 中，每个盒的左外边缘都与其包含的块的左边缘相接。
+
+两个相邻的块级盒在垂直方向上的边距会发生合并（collapse）。
+
 ## 有哪些清除浮动的技术，都适用哪些情况？
+
+- 空div方法：`<div style="clear:both;"></div>`。
+- Clearfix 方法：上文使用.clearfix类已经提到。
+- overflow: auto或overflow: hidden方法：上文已经提到。
 
 ## 请解释什么是雪碧图（css sprites），以及如何实现？
 
