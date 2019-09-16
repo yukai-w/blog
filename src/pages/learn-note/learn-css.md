@@ -201,10 +201,36 @@ none, block, inline, inline-block, table, table-row, table-cell, list-item.
 
 ## 你了解 CSS Flexbox 和 Grid 吗？
 
+Flexbox主要用于一维布局，而grid则用于二维布局
+
+Flexbox 解决了 CSS 中的许多常见问题，例如容器中元素的垂直居中，粘性定位（sticky）的页脚等。Bootstrap 和 Bulma 基于 Flexbox，这是创建布局的推荐方式。我之前曾使用过 Flexbox，但在使用flex-grow时遇到了一些浏览器不兼容问题（Safari），我必须使用inline-blocks和手动计算百分比宽度，来重写我的代码，这种体验不是很好。
+
+Grid 创建基于栅格的布局，是迄今为止最直观的方法（最好是！），但目前浏览器支持并不广泛。
+
 ## 请解释在编写网站时，响应式与移动优先的区别。
+
+todo
 
 ## 响应式设计与自适应设计有何不同？
 
+响应式：
+
+网站应该凭借一份代码，在各种设备上都有良好的显示和使用效果。
+
+自适应：
+
+它更像是渐进式增强的现代解释。
+
 ## 你有没有使用过视网膜分辨率的图形？当中使用什么技术？
 
+我倾向于使用更高分辨率的图形（显示尺寸的两倍）来处理视网膜显示。更好的方法是使用媒体查询，像@media only screen and (min-device-pixel-ratio: 2) { ... }，然后改变background-image。
+
+对于图标类的图形，我会尽可能使用 svg 和图标字体，因为它们在任何分辨率下，都能被渲染得十分清晰。
+
+还有一种方法是，在检查了window.devicePixelRatio的值后，利用 JavaScript 将`<img>`的src属性修改，用更高分辨率的版本进行替换。
+
 ## 什么情况下，用translate()而不用绝对定位？什么时候，情况相反。
+
+translate是transform的一个值，改变transform或opacity不会触发浏览器重新布局（reflow）或重绘（repaint），只会触发复合（compositions）。而改变绝对定位会触发重新布局，进而触发重绘和复合。transform使浏览器为元素创建一个GPU图层，但改变绝对定位会使用到CPU。因此translate更高效，可以缩短平滑动画的绘制时间。
+
+当使用translate时，元素仍然占据其原始空间（有点像position:relative），这与改变绝对定位不同。
