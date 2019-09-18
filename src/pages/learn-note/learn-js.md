@@ -361,12 +361,101 @@ for (let j = 1; j <= 100; j++) {
 - 开发人员应该清楚代码正在被编译到什么地方——因为这是实际运行的内容，是最重要的。
 
 ## 你使用什么工具和技巧调试 JavaScript 代码？
+
+- React 和 Redux
+  - React Devtools
+  - Redux Devtools
+- Vue
+  - Vue Devtools
+- JavaScript
+  - Chrome Devtools
+  - debugger声明
+  - 使用万金油console.log进行调试
+
 ## 你使用什么语句遍历对象的属性和数组的元素？
+
+对象：
+
+- for循环：for (var property in obj) { console.log(property); }。但是，这还会遍历到它的继承属性，在使用之前，你需要加入obj.hasOwnProperty(property)检查。
+- Object.keys()：Object.keys(obj).forEach(function (property) { ... })。Object.keys()方法会返回一个由一个给定对象的自身可枚举属性组成的数组。
+- Object.getOwnPropertyNames()：Object.getOwnPropertyNames(obj).forEach(function (property) { ... })。Object.getOwnPropertyNames()方法返回一个由指定对象的所有自身属性的属性名（包括不可枚举属性但不包括 Symbol 值作为名称的属性）组成的数组。
+
+数组：
+
+- for loops：for (var i = 0; i < arr.length; i++)。这里的常见错误是var是函数作用域而不是块级作用域，大多数时候你想要迭代变量在块级作用域中。ES2015 引入了具有块级作用域的let，建议使用它。所以就变成了：for (let i = 0; i < arr.length; i++)。
+- forEach：arr.forEach(function (el, index) { ... })。这个语句结构有时会更精简，因为如果你所需要的只是数组元素，你不必使用index。还有every和some方法可以让你提前终止遍历。
+
 ## 请解释可变对象和不可变对象之间的区别。
+- 什么是 JavaScript 中的不可变对象的例子？
+- 不变性有什么优点和缺点？
+- 你如何在自己的代码中实现不变性？
+
+**可变对象** 在创建之后是可以被改变的。
+
+**不可变对象** 在创建之后是不可以被改变的。
+
+1. 在 JavaScript 中，string 和 number 从设计之初就是不可变(Immutable)。
+2. 不可变 其实是保持一个对象状态不变，这样做的好处是使得开发更加简单，可回溯，测试友好，减少了任何可能的副作用。但是，每当你想添加点东西到一个不可变(Immutable)对象里时，它一定是先拷贝已存在的值到新实例里，然后再给新实例添加内容，最后返回新实例。相比可变对象，这势必会有更多内存、计算量消耗。
+3. 比如：构造一个纯函数
+```js
+const student1 = {
+  school: 'Baidu',
+  name: 'HOU Ce',
+  birthdate: '1995-12-15',
+};
+
+const changeStudent = (student, newName, newBday) => {
+  return {
+    ...student, // 使用解构
+    name: newName, // 覆盖name属性
+    birthdate: newBday, // 覆盖birthdate属性
+  };
+};
+
+const student2 = changeStudent(student1, 'YAN Haijing', '1990-11-10');
+
+// both students will have the name properties
+console.log(student1, student2);
+// Object {school: "Baidu", name: "HOU Ce", birthdate: "1995-12-15"}
+// Object {school: "Baidu", name: "YAN Haijing", birthdate: "1990-11-10"}
+```
+
 ## 请解释同步和异步函数之间的区别。
+
+同步函数阻塞，而异步函数不阻塞。在同步函数中，语句完成后，下一句才执行。在这种情况下，程序可以按照语句的顺序进行精确评估，如果其中一个语句需要很长时间，程序的执行会停滞很长时间。
+
+异步函数通常接受回调作为参数，在调用异步函数后立即继续执行下一行。回调函数仅在异步操作完成且调用堆栈为空时调用。诸如从 Web 服务器加载数据或查询数据库等重负载操作应该异步完成，以便主线程可以继续执行其他操作，而不会出现一直阻塞，直到费时操作完成的情况（在浏览器中，界面会卡住）。
+
 ## 什么是事件循环？调用堆栈和任务队列之间有什么区别？
+
+事件循环是一个单线程循环，用于监视调用堆栈并检查是否有工作即将在任务队列中完成。如果调用堆栈为空并且任务队列中有回调函数，则将回调函数出队并推送到调用堆栈中执行。
+
+如果你没有看过 Philip Robert [关于事件循环的演讲](https://2014.jsconf.eu/speakers/philip-roberts-what-the-heck-is-the-event-loop-anyway.html)，你应该看一下。这是观看次数最多的 JavaScript 相关视频之一。
+
 ## 请解释function foo() {}和var foo = function() {}之间foo的用法上的区别。
+
+函数声明
+
+```js
+foo(); // 'FOOOOO'
+function foo() {
+  console.log('FOOOOO');
+}
+```
+
+函数表达式
+
+```js
+foo(); // Uncaught TypeError: foo is not a function
+var foo = function() {
+  console.log('FOOOOO');
+};
+```
+
 ## 使用let、var和const创建变量有什么区别？
+
+
+
 ## ES6 的类和 ES5 的构造函数有什么区别？
 ## 你能给出一个使用箭头函数的例子吗，箭头函数与其他函数有什么不同？
 ## 在构造函数中使用箭头函数有什么好处？
