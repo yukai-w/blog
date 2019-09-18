@@ -454,15 +454,119 @@ var foo = function() {
 
 ## 使用let、var和const创建变量有什么区别？
 
-
+用var声明的变量的作用域是它当前的执行上下文，它可以是嵌套的函数，也可以是声明在任何函数外的变量。let和const是块级作用域，意味着它们只能在最近的一组花括号（function、if-else 代码块或 for 循环中）中访问。
 
 ## ES6 的类和 ES5 的构造函数有什么区别？
+
+1. ES5的构造函数的原型上的属性和方法可以遍历/ES6 不能够遍历
+2. ES6的类必须通过new调用，构造函数则可以不用
+3. 类不存在变量提升
+4. ES6的类没有私有方法和私有属性（正在提议中）
+5. class多了一个静态方法（static）,里面的this指向的是类本身，静态方法可以被子类继承
+6. ES6的静态属性和静态方法
+7. ES6 类多了一个new Target 可以判定new 的构造函数
+
 ## 你能给出一个使用箭头函数的例子吗，箭头函数与其他函数有什么不同？
+
+参数、返回值书写不同
+
+this指向不同
+
 ## 在构造函数中使用箭头函数有什么好处？
+
+`todo`
+
 ## 高阶函数（higher-order）的定义是什么？
+
+**高阶函数是将一个或多个函数作为参数的函数，它用于数据处理，也可能将函数作为返回结果。**高阶函数是为了抽象一些重复执行的操作。一个典型的例子是map，它将一个数组和一个函数作为参数。map使用这个函数来转换数组中的每个元素，并返回一个包含转换后元素的新数组。JavaScript 中的其他常见示例是forEach、filter和reduce。高阶函数不仅需要操作数组的时候会用到，还有许多函数返回新函数的用例。Function.prototype.bind就是一个例子
+
 ## 请给出一个解构（destructuring）对象或数组的例子。
+
+解构是 ES6 中新功能，它提供了一种简洁方便的方法来提取对象或数组的值，并将它们放入不同的变量中。
+
 ## ES6 的模板字符串为生成字符串提供了很大的灵活性，你可以举个例子吗？
+
+```js
+console.log(`string text line 1
+string text line 2`);
+// "string text line 1
+// string text line 2"
+
+var a = 5;
+var b = 10;
+console.log(`Fifteen is ${a + b} and\nnot ${2 * a + b}.`);
+// "Fifteen is 15 and
+// not 20."
+
+//show函数采用rest参数的写法如下：
+
+let name = '张三',
+  age = 20,
+  message = show`我来给大家介绍:${name}的年龄是${age}.`;
+
+function show(stringArr, ...values) {
+  let output = '';
+
+  let index = 0;
+
+  for (; index < values.length; index++) {
+    output += stringArr[index] + values[index];
+  }
+
+  output += stringArr[index];
+
+  return output;
+}
+
+message; //"我来给大家介绍:张三的年龄是20."
+```
+
 ## 你能举出一个柯里化函数（curry function）的例子吗？它有哪些好处？
+
+柯里化（currying）是一种模式，其中具有多个参数的函数被分解为多个函数，当被串联调用时，将一次一个地累积所有需要的参数。这种技术帮助编写函数式风格的代码，使代码更易读、紧凑。值得注意的是，对于需要被 curry 的函数，它需要从一个函数开始，然后分解成一系列函数，每个函数都需要一个参数。
+
+```js
+function curry(fn) {
+  if (fn.length === 0) {
+    return fn;
+  }
+
+  function _curried(depth, args) {
+    return function(newArgument) {
+      if (depth - 1 === 0) {
+        return fn(...args, newArgument);
+      }
+      return _curried(depth - 1, [...args, newArgument]);
+    };
+  }
+
+  return _curried(fn.length, []);
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+var curriedAdd = curry(add);
+var addFive = curriedAdd(5);
+
+var result = [0, 1, 2, 3, 4, 5].map(addFive); // [5, 6, 7, 8, 9, 10]
+```
+
 ## 使用扩展运算符（spread）的好处是什么，它与使用剩余参数语句（rest）有什么区别？
+
+在函数泛型编码时，ES6 的扩展运算符非常有用，因为我们可以轻松创建数组和对象的拷贝，而无需使用Object.create、slice或其他函数库。这个语言特性在 Redux 和 rx.js 的项目中经常用到。
+
 ## 如何在文件之间共用代码？
+
+这取决于执行 JavaScript 的环境。
+
+在客户端（浏览器环境）上，只要变量或函数在全局作用域（window）中声明，所有脚本都可以引用它们。或者，通过 RequireJS 采用异步模块定义（AMD）以获得更多模块化方法。
+
+在服务器（Node.js）上，常用的方法是使用 CommonJS。每个文件都被视为一个模块，可以通过将它们附加到module.exports对象来导出变量和函数。
+
+ES2015 定义了一个模块语法，旨在替换 AMD 和 CommonJS。 这最终将在浏览器和 Node 环境中得到支持。
+
 ## 什么情况下会用到静态类成员？
+
+静态类成员（属性或方法）不绑定到某个类的特定实例，不管哪个实例引用它，都具有相同的值。静态属性通常是配置变量，而静态方法通常是纯粹的实用函数，不依赖于实例的状态。
