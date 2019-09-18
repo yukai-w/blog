@@ -268,26 +268,305 @@ duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
 - 以不同严格模式编写的脚本合并后可能导致问题。
 
 ## 创建一个循环，从 1 迭代到 100，3的倍数时输出 "fizz"，5的倍数时输出 "buzz"，同时为3和5的倍数时输出 "fizzbuzz"。
+
+```js
+for (let i = 1; i <= 100; i++) {
+  let f = i % 3 == 0,
+    b = i % 5 == 0;
+  console.log(f ? (b ? 'FizzBuzz' : 'Fizz') : b ? 'Buzz' : i);
+}
+
+for (let j = 1; j <= 100; j++) {
+  const threeFlag = j % 3 == 0;
+  const fiveFlag = j % 5 == 0;
+
+  if (threeFlag && fiveFlag) {
+    console.log('fizzbuzz')
+  } else if(threeFlag) {
+    console.log('fizz')
+  } else {
+    console.log('buzz')
+  }
+}
+```
+
 ## 为什么不要使用全局作用域？
+
+每个脚本都可以访问全局作用域，付过人人都使用全局命名空间来定义自己的变量，肯定会发生冲突。使用模块模式「IIFE」将变量封装在本地命名空间中。
+
 ## 为什么要使用load事件？这个事件有什么缺点吗？你知道一些代替方案吗，为什么使用它们？
+
+在文档加载完成后出发load事件
+
+缺点：load事件注册过多可能会被覆盖
+
+可议借鉴jq的ready思想
+* 源码解析地址：http://rapheal.sinaapp.com/2013/01/30/jquery-src-ready/
+
 ## 请解释单页应用是什么，如何使其对 SEO 友好。
+
+现如今，Web 开发人员将他们构建的产品称为 Web 应用，而不是网站。虽然这两个术语之间没有严格的区别，但网络应用往往具有高度的交互性和动态性，允许用户执行操作并接收他们的操作响应。在过去，浏览器从服务器接收 HTML 并渲染。当用户导航到其它 URL 时，需要整页刷新，服务器会为新页面发送新的 HTML。这被称为服务器端渲染。
+
+然而，在现代的 SPA 中，客户端渲染取而代之。浏览器从服务器加载初始页面、整个应用程序所需的脚本（框架、库、应用代码）和样式表。当用户导航到其他页面时，不会触发页面刷新。该页面的 URL 通过 HTML5 History API 进行更新。浏览器通过 AJAX 请求向服务器检索新页面所需的数据（通常采用 JSON 格式）。然后，SPA 通过 JavaScript 来动态更新页面，这些 JavaScript 在初始页面加载时已经下载。这种模式类似于原生移动应用的工作方式。
+
+好处：
+
+- 用户感知响应更快，用户切换页面时，不再看到因页面刷新而导致的白屏。
+- 对服务器进行的 HTTP 请求减少，因为对于每个页面加载，不必再次下载相同的资源。
+- 客户端和服务器之间的关注点分离。可以为不同平台（例如手机、聊天机器人、智能手表）建立新的客户端，而无需修改服务器代码。只要 API 没有修改，可以单独修改客户端和服务器上的代码。
+
+坏处：
+
+- 由于加载了多个页面所需的框架、应用代码和资源，导致初始页面加载时间较长。
+- 服务器还需要进行额外的工作，需要将所有请求路由配置到单个入口点，然后由客户端接管路由。
+- SPA 依赖于 JavaScript 来呈现内容，但并非所有搜索引擎都在抓取过程中执行 JavaScript，他们可能会在你的页面上看到空的内容。这无意中损害了应用的搜索引擎优化（SEO）。然而，当你构建应用时，大多数情况下，搜索引擎优化并不是最重要的因素，因为并非所有内容都需要通过搜索引擎进行索引。为了解决这个问题，可以在服务器端渲染你的应用，或者使用诸如 Prerender 的服务来“在浏览器中呈现你的 javascript，保存静态 HTML，并将其返回给爬虫”。
+
 ## 你对 Promises 及其 polyfill 的掌握程度如何？
+
+一些常见的 polyfill 是$.deferred、Q 和 Bluebird，但不是所有的 polyfill 都符合规范。ES2015 支持 Promises，现在通常不需要使用 polyfills。
+
+手写promise：https://github.com/xieranmaya/blog/issues/3
+
 ## Promise代替回调函数有什么优缺点？
+
+优点：
+
+- 避免可读性极差的回调地狱。
+- 使用.then()编写的顺序异步代码，既简单又易读。
+- 使用Promise.all()编写并行异步代码变得很容易。
+
+缺点：
+
+- 轻微地增加了代码的复杂度（这点存在争议）。
+- 在不支持 ES2015 的旧版浏览器中，需要引入 polyfill 才能使用。
+
 ## 用转译成 JavaScript 的语言写 JavaScript 有什么优缺点？
+
+这些是转译成 JavaScript 的语言，包括 CoffeeScript、Elm、ClojureScript、PureScript 和 TypeScript。
+
+优点：
+
+- 修复了 JavaScript 中的一些长期问题，并摒弃了 JavaScript 不好的做法。
+- 在 JavaScript 的基础上提供一些语法糖，使我们能够编写更短的代码，我认为 ES5 缺乏语法糖的支持，但 ES2015 非常好。
+- 对于需要长时间维护的大型项目，静态类型非常好用（针对 TypeScript）。
+
+缺点：
+
+- 由于浏览器只运行 JavaScript，所以需要构建、编译过程，在将代码提供给浏览器之前，需要将代码转译为 JavaScript。
+- 如果 source map 不能很好地映射到预编译的源代码，调试会很痛苦。
+- 大多数开发人员不熟悉这些语言，需要学习它。如果将其用于项目，会增加团队成本。
+- 社区比较小（取决于语言），这意味着资源、教程、图书和工具难以找到。
+- 可能缺乏 IDE（编辑器）的支持。
+- 这些语言将始终落后于最新的 JavaScript 标准。
+- 开发人员应该清楚代码正在被编译到什么地方——因为这是实际运行的内容，是最重要的。
+
 ## 你使用什么工具和技巧调试 JavaScript 代码？
+
+- React 和 Redux
+  - React Devtools
+  - Redux Devtools
+- Vue
+  - Vue Devtools
+- JavaScript
+  - Chrome Devtools
+  - debugger声明
+  - 使用万金油console.log进行调试
+
 ## 你使用什么语句遍历对象的属性和数组的元素？
+
+对象：
+
+- for循环：for (var property in obj) { console.log(property); }。但是，这还会遍历到它的继承属性，在使用之前，你需要加入obj.hasOwnProperty(property)检查。
+- Object.keys()：Object.keys(obj).forEach(function (property) { ... })。Object.keys()方法会返回一个由一个给定对象的自身可枚举属性组成的数组。
+- Object.getOwnPropertyNames()：Object.getOwnPropertyNames(obj).forEach(function (property) { ... })。Object.getOwnPropertyNames()方法返回一个由指定对象的所有自身属性的属性名（包括不可枚举属性但不包括 Symbol 值作为名称的属性）组成的数组。
+
+数组：
+
+- for loops：for (var i = 0; i < arr.length; i++)。这里的常见错误是var是函数作用域而不是块级作用域，大多数时候你想要迭代变量在块级作用域中。ES2015 引入了具有块级作用域的let，建议使用它。所以就变成了：for (let i = 0; i < arr.length; i++)。
+- forEach：arr.forEach(function (el, index) { ... })。这个语句结构有时会更精简，因为如果你所需要的只是数组元素，你不必使用index。还有every和some方法可以让你提前终止遍历。
+
 ## 请解释可变对象和不可变对象之间的区别。
+- 什么是 JavaScript 中的不可变对象的例子？
+- 不变性有什么优点和缺点？
+- 你如何在自己的代码中实现不变性？
+
+**可变对象** 在创建之后是可以被改变的。
+
+**不可变对象** 在创建之后是不可以被改变的。
+
+1. 在 JavaScript 中，string 和 number 从设计之初就是不可变(Immutable)。
+2. 不可变 其实是保持一个对象状态不变，这样做的好处是使得开发更加简单，可回溯，测试友好，减少了任何可能的副作用。但是，每当你想添加点东西到一个不可变(Immutable)对象里时，它一定是先拷贝已存在的值到新实例里，然后再给新实例添加内容，最后返回新实例。相比可变对象，这势必会有更多内存、计算量消耗。
+3. 比如：构造一个纯函数
+```js
+const student1 = {
+  school: 'Baidu',
+  name: 'HOU Ce',
+  birthdate: '1995-12-15',
+};
+
+const changeStudent = (student, newName, newBday) => {
+  return {
+    ...student, // 使用解构
+    name: newName, // 覆盖name属性
+    birthdate: newBday, // 覆盖birthdate属性
+  };
+};
+
+const student2 = changeStudent(student1, 'YAN Haijing', '1990-11-10');
+
+// both students will have the name properties
+console.log(student1, student2);
+// Object {school: "Baidu", name: "HOU Ce", birthdate: "1995-12-15"}
+// Object {school: "Baidu", name: "YAN Haijing", birthdate: "1990-11-10"}
+```
+
 ## 请解释同步和异步函数之间的区别。
+
+同步函数阻塞，而异步函数不阻塞。在同步函数中，语句完成后，下一句才执行。在这种情况下，程序可以按照语句的顺序进行精确评估，如果其中一个语句需要很长时间，程序的执行会停滞很长时间。
+
+异步函数通常接受回调作为参数，在调用异步函数后立即继续执行下一行。回调函数仅在异步操作完成且调用堆栈为空时调用。诸如从 Web 服务器加载数据或查询数据库等重负载操作应该异步完成，以便主线程可以继续执行其他操作，而不会出现一直阻塞，直到费时操作完成的情况（在浏览器中，界面会卡住）。
+
 ## 什么是事件循环？调用堆栈和任务队列之间有什么区别？
+
+事件循环是一个单线程循环，用于监视调用堆栈并检查是否有工作即将在任务队列中完成。如果调用堆栈为空并且任务队列中有回调函数，则将回调函数出队并推送到调用堆栈中执行。
+
+如果你没有看过 Philip Robert [关于事件循环的演讲](https://2014.jsconf.eu/speakers/philip-roberts-what-the-heck-is-the-event-loop-anyway.html)，你应该看一下。这是观看次数最多的 JavaScript 相关视频之一。
+
 ## 请解释function foo() {}和var foo = function() {}之间foo的用法上的区别。
+
+函数声明
+
+```js
+foo(); // 'FOOOOO'
+function foo() {
+  console.log('FOOOOO');
+}
+```
+
+函数表达式
+
+```js
+foo(); // Uncaught TypeError: foo is not a function
+var foo = function() {
+  console.log('FOOOOO');
+};
+```
+
 ## 使用let、var和const创建变量有什么区别？
+
+用var声明的变量的作用域是它当前的执行上下文，它可以是嵌套的函数，也可以是声明在任何函数外的变量。let和const是块级作用域，意味着它们只能在最近的一组花括号（function、if-else 代码块或 for 循环中）中访问。
+
 ## ES6 的类和 ES5 的构造函数有什么区别？
+
+1. ES5的构造函数的原型上的属性和方法可以遍历/ES6 不能够遍历
+2. ES6的类必须通过new调用，构造函数则可以不用
+3. 类不存在变量提升
+4. ES6的类没有私有方法和私有属性（正在提议中）
+5. class多了一个静态方法（static）,里面的this指向的是类本身，静态方法可以被子类继承
+6. ES6的静态属性和静态方法
+7. ES6 类多了一个new Target 可以判定new 的构造函数
+
 ## 你能给出一个使用箭头函数的例子吗，箭头函数与其他函数有什么不同？
+
+参数、返回值书写不同
+
+this指向不同
+
 ## 在构造函数中使用箭头函数有什么好处？
+
+`todo`
+
 ## 高阶函数（higher-order）的定义是什么？
+
+**高阶函数是将一个或多个函数作为参数的函数，它用于数据处理，也可能将函数作为返回结果。**高阶函数是为了抽象一些重复执行的操作。一个典型的例子是map，它将一个数组和一个函数作为参数。map使用这个函数来转换数组中的每个元素，并返回一个包含转换后元素的新数组。JavaScript 中的其他常见示例是forEach、filter和reduce。高阶函数不仅需要操作数组的时候会用到，还有许多函数返回新函数的用例。Function.prototype.bind就是一个例子
+
 ## 请给出一个解构（destructuring）对象或数组的例子。
+
+解构是 ES6 中新功能，它提供了一种简洁方便的方法来提取对象或数组的值，并将它们放入不同的变量中。
+
 ## ES6 的模板字符串为生成字符串提供了很大的灵活性，你可以举个例子吗？
+
+```js
+console.log(`string text line 1
+string text line 2`);
+// "string text line 1
+// string text line 2"
+
+var a = 5;
+var b = 10;
+console.log(`Fifteen is ${a + b} and\nnot ${2 * a + b}.`);
+// "Fifteen is 15 and
+// not 20."
+
+//show函数采用rest参数的写法如下：
+
+let name = '张三',
+  age = 20,
+  message = show`我来给大家介绍:${name}的年龄是${age}.`;
+
+function show(stringArr, ...values) {
+  let output = '';
+
+  let index = 0;
+
+  for (; index < values.length; index++) {
+    output += stringArr[index] + values[index];
+  }
+
+  output += stringArr[index];
+
+  return output;
+}
+
+message; //"我来给大家介绍:张三的年龄是20."
+```
+
 ## 你能举出一个柯里化函数（curry function）的例子吗？它有哪些好处？
+
+柯里化（currying）是一种模式，其中具有多个参数的函数被分解为多个函数，当被串联调用时，将一次一个地累积所有需要的参数。这种技术帮助编写函数式风格的代码，使代码更易读、紧凑。值得注意的是，对于需要被 curry 的函数，它需要从一个函数开始，然后分解成一系列函数，每个函数都需要一个参数。
+
+```js
+function curry(fn) {
+  if (fn.length === 0) {
+    return fn;
+  }
+
+  function _curried(depth, args) {
+    return function(newArgument) {
+      if (depth - 1 === 0) {
+        return fn(...args, newArgument);
+      }
+      return _curried(depth - 1, [...args, newArgument]);
+    };
+  }
+
+  return _curried(fn.length, []);
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+var curriedAdd = curry(add);
+var addFive = curriedAdd(5);
+
+var result = [0, 1, 2, 3, 4, 5].map(addFive); // [5, 6, 7, 8, 9, 10]
+```
+
 ## 使用扩展运算符（spread）的好处是什么，它与使用剩余参数语句（rest）有什么区别？
+
+在函数泛型编码时，ES6 的扩展运算符非常有用，因为我们可以轻松创建数组和对象的拷贝，而无需使用Object.create、slice或其他函数库。这个语言特性在 Redux 和 rx.js 的项目中经常用到。
+
 ## 如何在文件之间共用代码？
+
+这取决于执行 JavaScript 的环境。
+
+在客户端（浏览器环境）上，只要变量或函数在全局作用域（window）中声明，所有脚本都可以引用它们。或者，通过 RequireJS 采用异步模块定义（AMD）以获得更多模块化方法。
+
+在服务器（Node.js）上，常用的方法是使用 CommonJS。每个文件都被视为一个模块，可以通过将它们附加到module.exports对象来导出变量和函数。
+
+ES2015 定义了一个模块语法，旨在替换 AMD 和 CommonJS。 这最终将在浏览器和 Node 环境中得到支持。
+
 ## 什么情况下会用到静态类成员？
+
+静态类成员（属性或方法）不绑定到某个类的特定实例，不管哪个实例引用它，都具有相同的值。静态属性通常是配置变量，而静态方法通常是纯粹的实用函数，不依赖于实例的状态。
