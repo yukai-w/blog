@@ -97,3 +97,23 @@ sizes定义了一组媒体条件（例如屏幕宽度），并且指明当某些
 Pug ERB Slim Handlebars Jinja Liquid
 
 模板语言大多是相似的，都提供了用于展示数据的内容替换和过滤器的功能，大部分模板引擎都支持自定义过滤器，以展示自定义格式的内容
+
+## HTML全局属性有哪些
+
+- accesskey:设置快捷键，提供快速访问元素如`<a accesskey="a">aaa</a>`在 windows 下的 firefox 中按alt + shift + a可激活元素
+- class:为元素设置类标识，多个类名用空格分开，CSS 和 javascript 可通过 class 属性获取元素
+- contenteditable: 指定元素内容是否可编辑
+- contextmenu: 自定义鼠标右键弹出菜单内容
+- data-*: 为元素增加自定义属性
+- dir: 设置元素文本方向
+- draggable: 设置元素是否可拖拽
+- dropzone: 设置元素拖放类型： copy, move, link
+- hidden: 表示一个元素是否与文档。样式上会导致元素不显示，但是不能用这个属性实现样式效果
+- id: 元素 id，文档内唯一
+- lang: 元素内容的的语言
+- spellcheck: 是否启动拼写和语法检查
+- style: 行内 css 样式
+- tabindex: 设置元素可以获得焦点，通过 tab 可以导航
+- title: 元素相关的建议信息
+- translate: 元素和子孙节点内容是否需要本地化
+
