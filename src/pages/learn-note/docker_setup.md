@@ -82,3 +82,7 @@ RUN npm install --registry=https://registry.npm.taobao.org
 EXPOSE 3000
 CMD node demos/01.js
 ```
+
+### 可视化
+
+docker toolbox
