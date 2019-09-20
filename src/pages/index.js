@@ -21,6 +21,7 @@ const IndexPage = ({ data }) => (
       <li>❌博客整体页面样式</li>
       <li>❌字体</li>
       <li>❌分类</li>
+      <li>❌云</li>
     </ol>
     {/* 文章列表 */}
     <div>
@@ -38,6 +39,11 @@ const IndexPage = ({ data }) => (
         </Container>
       ))}
     </div>
+    {/* 开源库 */}
+    <h3>了不起的开源库</h3>
+    <ol>
+      <li>hotkeys 快捷键绑定</li>
+    </ol>
   </Layout>
 )
 
