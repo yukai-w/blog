@@ -49,5 +49,9 @@ Foo.prototype.getName = function () {
 
 new Foo.getName();   // -> 1
 new Foo().getName(); // -> 2
+
+// 相当于
+new (Foo.getName());
+(new Foo()).getName();
 ```
 
