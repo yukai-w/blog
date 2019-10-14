@@ -596,3 +596,13 @@ for (let a of [1,2,3]){
 
 ### Set Map
 
+```js
+let arr = new Set('tsef');
+arr.add('3');
+arr.delete('3');
+arr.has('t');
+
+let foo = new Map();
+food.set(key, value); 
+```
+
