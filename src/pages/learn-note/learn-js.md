@@ -570,3 +570,20 @@ ES2015 定义了一个模块语法，旨在替换 AMD 和 CommonJS。 这最终�
 ## 什么情况下会用到静态类成员？
 
 静态类成员（属性或方法）不绑定到某个类的特定实例，不管哪个实例引用它，都具有相同的值。静态属性通常是配置变量，而静态方法通常是纯粹的实用函数，不依赖于实例的状态。
+
+## es6
+
+### generator
+
+```js
+let s = function* () {
+  yield '🍺';
+  yield '🍊';
+}
+const res = s();
+res.next(); // { value: '🍺', done: false }
+res.next(); // { value: '🍊', done: false }
+res.next(); // { value: undefined, done: true }
+```
+
+### 
