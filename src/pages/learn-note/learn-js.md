@@ -588,7 +588,7 @@ res.next(); // { value: undefined, done: true }
 
 ### for of
 包括 Array，Map，Set，String，TypedArray，arguments 对象等等
-```js
+```javascript
 for (let a of [1,2,3]){
   console.log(a);
 }
@@ -603,9 +603,8 @@ arr.delete('3');
 arr.has('t');
 
 let foo = new Map();
-food.set(key, value); 
+food.set(key, value);
 ```
 
-### async
-
+### async await
 
