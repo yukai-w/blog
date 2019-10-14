@@ -586,4 +586,11 @@ res.next(); // { value: '🍊', done: false }
 res.next(); // { value: undefined, done: true }
 ```
 
-### 
+### for of
+包括 Array，Map，Set，String，TypedArray，arguments 对象等等
+```js
+for (let a of [1,2,3]){
+  console.log(a);
+}
+```
+
