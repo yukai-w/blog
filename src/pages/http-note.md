@@ -74,3 +74,12 @@ http响应
 
 ### 请求方法
 
+- GET
+- POST
+- HEAD
+- PUT
+- DELETE
+- TRACE
+- CONNECT
+- OPTIONS
+
