@@ -83,3 +83,7 @@ http响应
 - CONNECT
 - OPTIONS
 
+## 缓存
+
+Etag策略
+
