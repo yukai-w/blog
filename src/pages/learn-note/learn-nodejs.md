@@ -35,3 +35,14 @@ mark-sweep & mark-compact
 - 任何模块内的私有变量和方法
 - 大循环
 
+### PM2
+
+### node集群
+
+- 网络层负载均衡（nginx）
+- pm2
+- vanish、stupid
+- java
+- DB
+- 。。。
+
