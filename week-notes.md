@@ -16,6 +16,8 @@
 
 ### node
 
+node使用CMD标准
+
 ```js
 var http = require('http');
 
