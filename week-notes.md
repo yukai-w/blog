@@ -4,6 +4,8 @@
 
 ## Tuesday
 
+`npm search`
+
 ### nodejs
 
 - 高性能的io
