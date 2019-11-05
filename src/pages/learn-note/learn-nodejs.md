@@ -46,3 +46,6 @@ mark-sweep & mark-compact
 - DB
 - 。。。
 
+### 事件驱动模型
+
+<img src="../../images/20191105104740.jpg" alt="事件驱动模型" />

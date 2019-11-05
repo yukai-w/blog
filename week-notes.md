@@ -6,6 +6,11 @@
 
 `npm search`
 
+阻塞、非阻塞。
+
+事件驱动模型
+<img src="./src/images/" alt="事件驱动模型" />
+
 ### nodejs
 
 - 高性能的io
