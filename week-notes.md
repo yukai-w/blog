@@ -48,5 +48,11 @@ console.log('server is running')
 
 ## Thursday
 
+### 列表查询表单数据流
+
+1. 定义一个参数params对象
+2. 分析其中某一个改变是否影响其他（例如：更改了查询条件，需要把页码置为1）
+3. 定义一个getData函数，里面发送请求，直接使用params对象
+4. 绑定params对象，params修改后，发送新的请求。
+
 ## Friday
- 
