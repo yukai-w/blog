@@ -25,6 +25,18 @@ nodejs
 
 ## Wednesday
 
+### 使项目适用webp格式
+
+#### webpack项目
+
+- 使用webpack插件imagemin-webp-webpack-plugin打包，暂不支持webpack4，可改为3形式
+- nginx配置
+
+#### 一般项目
+
+- 使用picture标签
+- 函数判断是否支持
+
 ### node
 
 node使用CMD标准
